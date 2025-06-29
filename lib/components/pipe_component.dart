@@ -25,6 +25,11 @@ class PipeComponent extends PositionComponent {
 
   @override
   void render(Canvas canvas) {
-    _pipeSprite.render(canvas, size: size);
+    super.render(canvas);
+    _pipeSprite.render(
+      canvas,
+      position: Vector2.zero(),
+      size: size,
+    );
   }
 }

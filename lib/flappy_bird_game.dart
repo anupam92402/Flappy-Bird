@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:flame/camera.dart';
+import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flappy_bird/components/dash_component.dart';
 
@@ -16,39 +16,60 @@ class FlappyBirdGame extends FlameGame<FlappyBirdWorld> {
       );
 }
 
-class FlappyBirdWorld extends World with TapCallbacks {
+class FlappyBirdWorld extends World
+    with TapCallbacks, HasGameRef<FlappyBirdGame> {
   late final DashComponent _dashComponent;
-  final _horizontalDistance = 400.0;
-  double _lastPipeX = 0;
+  late PipePairComponent _lastPipe;
+  static const _horizontalDistance = 400.0;
 
   @override
   void onLoad() {
     super.onLoad();
     add(BackgroundComponent());
-    _addPipesComponent(start: 350);
     add(_dashComponent = DashComponent());
+    _addPipesComponent(fromX: 350);
   }
 
-  void _addPipesComponent({required double start, int maxPipes = 4}) {
-    for (int i = 0; i < maxPipes; i++) {
-      const area = 500;
-      const minGap = 200.0;
+  void _addPipesComponent({int count = 5, double fromX = 0.0}) {
+    for (int i = 0; i < count; i++) {
+      const area = 600;
       final verticalDistance = (Random().nextDouble() * area) - (area / 2);
+      const minGap = 200.0;
       final gap = Random().nextDouble() * 100.0 + minGap;
       add(
-        PipePairComponent(
-          position: Vector2(
-            _lastPipeX = start + i * _horizontalDistance,
-            verticalDistance,
-          ),
+        _lastPipe = PipePairComponent(
+          position: Vector2(fromX + (i * _horizontalDistance), verticalDistance),
           gap: gap,
         ),
       );
     }
   }
 
+  void _removePipes() {
+    final pipes = children.whereType<PipePairComponent>();
+    final shouldBeRemoved = max(pipes.length - 5, 0);
+    pipes.take(shouldBeRemoved).forEach((pipe) {
+      pipe.removeFromParent();
+    });
+  }
+
+  void onSpaceDown() {
+    _dashComponent.jump();
+  }
+
+  @override
+  void update(double dt) {
+    super.update(dt);
+    if (_dashComponent.x >= _lastPipe.x) {
+      _addPipesComponent(fromX: _horizontalDistance);
+      _removePipes();
+    }
+    // game.camera.viewfinder.zoom = 0.1;
+  }
+
   @override
   void onTapUp(TapUpEvent event) {
+    super.onTapUp(event);
     _dashComponent.jump();
   }
 }
