@@ -1,9 +1,14 @@
 import 'dart:ui';
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flappy_bird/components/hidden_coin_component.dart';
+import 'package:flappy_bird/components/pipe_component.dart';
+import 'package:flappy_bird/flappy_bird_game.dart';
 
 import '../utils/image_path.dart';
 
-class DashComponent extends PositionComponent {
+class DashComponent extends PositionComponent
+    with CollisionCallbacks, HasGameReference<FlappyBirdGame> {
   DashComponent()
     : super(
         anchor: Anchor.center,
@@ -21,6 +26,16 @@ class DashComponent extends PositionComponent {
   Future<void> onLoad() async {
     await super.onLoad();
     _dashSprite = await Sprite.load(ImagePath.dashIcon);
+    final radius = size.x / 2;
+    final center = size / 2;
+    add(
+      CircleHitbox(
+        radius: radius * 0.75,
+        position: center * 1.1,
+        anchor: Anchor.center,
+        collisionType: CollisionType.active,
+      ),
+    );
   }
 
   @override
@@ -38,5 +53,14 @@ class DashComponent extends PositionComponent {
   void render(Canvas canvas) {
     super.render(canvas);
     _dashSprite.render(canvas, size: size);
+  }
+
+  @override
+  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
+    super.onCollision(intersectionPoints, other);
+    if (other is HiddenCoinComponent) {
+      other.removeFromParent();
+      game.world.increaseScore();
+    } else if (other is PipeComponent) {}
   }
 }
