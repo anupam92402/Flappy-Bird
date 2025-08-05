@@ -1,6 +1,8 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'blocs/game_cubit/game_cubit.dart';
 import 'flappy_bird_game.dart';
 
 class HomePage extends StatefulWidget {
@@ -12,11 +14,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late final FlappyBirdGame _flappyBirdGame;
+  late GameCubit gameCubit;
 
   @override
   void initState() {
     super.initState();
-    _flappyBirdGame = FlappyBirdGame();
+    gameCubit = BlocProvider.of<GameCubit>(context);
+    _flappyBirdGame = FlappyBirdGame(gameCubit: gameCubit);
   }
 
   @override

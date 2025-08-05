@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
+import 'package:flappy_bird/blocs/game_cubit/game_cubit.dart';
 import 'package:flappy_bird/components/dash_component.dart';
 
 import 'components/background_component.dart';
@@ -9,11 +10,12 @@ import 'package:flame/events.dart';
 import 'components/pipe_pair_component.dart';
 
 class FlappyBirdGame extends FlameGame<FlappyBirdWorld> {
-  FlappyBirdGame()
+  FlappyBirdGame({required this.gameCubit})
     : super(
         world: FlappyBirdWorld(),
         camera: CameraComponent.withFixedResolution(width: 600, height: 1000),
       );
+  final GameCubit gameCubit;
 }
 
 class FlappyBirdWorld extends World
