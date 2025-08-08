@@ -1,4 +1,6 @@
 import 'package:flame/game.dart';
+import 'package:flappy_bird/widgets/game_over_widget.dart';
+import 'package:flappy_bird/widgets/game_start_text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,8 +15,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late final FlappyBirdGame _flappyBirdGame;
+  late FlappyBirdGame _flappyBirdGame;
   late GameCubit gameCubit;
+  PlayingState? latestState;
 
   @override
   void initState() {
@@ -25,13 +28,29 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: GameWidget(
-        game: _flappyBirdGame,
-        backgroundBuilder: (context) {
-          return Container(color: Colors.black);
-        },
-      ),
+    return BlocConsumer<GameCubit, GameState>(
+      listener: (context, state) {
+        if (state.currentPlayingState == PlayingState.none &&
+            latestState == PlayingState.gameOver) {
+          setState(() {
+            _flappyBirdGame = FlappyBirdGame(gameCubit: gameCubit);
+          });
+        }
+        latestState = state.currentPlayingState;
+      },
+      builder: (BuildContext context, GameState state) {
+        return Scaffold(
+          body: Stack(
+            children: [
+              GameWidget(game: _flappyBirdGame),
+              if (state.currentPlayingState == PlayingState.gameOver)
+                GameOverWidget(),
+              if (state.currentPlayingState == PlayingState.none)
+                GameStartTextWidget(),
+            ],
+          ),
+        );
+      },
     );
   }
 }

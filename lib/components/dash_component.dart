@@ -1,14 +1,21 @@
 import 'dart:ui';
+
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flame_bloc/flame_bloc.dart';
+import 'package:flappy_bird/blocs/game_cubit/game_cubit.dart';
 import 'package:flappy_bird/components/hidden_coin_component.dart';
 import 'package:flappy_bird/components/pipe_component.dart';
 import 'package:flappy_bird/flappy_bird_game.dart';
+import 'package:flutter/material.dart';
 
 import '../utils/image_path.dart';
 
 class DashComponent extends PositionComponent
-    with CollisionCallbacks, HasGameReference<FlappyBirdGame> {
+    with
+        CollisionCallbacks,
+        HasGameReference<FlappyBirdGame>,
+        FlameBlocReader<GameCubit, GameState> {
   DashComponent()
     : super(
         anchor: Anchor.center,
@@ -41,11 +48,17 @@ class DashComponent extends PositionComponent
   @override
   void update(double dt) {
     super.update(dt);
+    if (bloc.state.currentPlayingState != PlayingState.playing) {
+      return;
+    }
     _velocity += _gravity * dt;
     position += _velocity * dt;
   }
 
   void jump() {
+    if (bloc.state.currentPlayingState != PlayingState.playing) {
+      return;
+    }
     _velocity = _jumpForce;
   }
 
@@ -58,9 +71,14 @@ class DashComponent extends PositionComponent
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     super.onCollision(intersectionPoints, other);
+    if (bloc.state.currentPlayingState != PlayingState.playing) {
+      return;
+    }
     if (other is HiddenCoinComponent) {
       other.removeFromParent();
-      game.world.increaseScore();
-    } else if (other is PipeComponent) {}
+      bloc.increaseScore();
+    } else if (other is PipeComponent) {
+      bloc.gameOver();
+    }
   }
 }

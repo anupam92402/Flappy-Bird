@@ -23,7 +23,7 @@ class GameCubit extends Cubit<GameState> {
     emit(state.copyWith(currentPlayingState: PlayingState.gameOver));
   }
 
-  restartGame() {
+  void restartGame() {
     emit(
       state.copyWith(currentPlayingState: PlayingState.none, currentScore: 0),
     );
