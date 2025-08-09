@@ -1,10 +1,13 @@
 import 'package:flappy_bird/blocs/game_cubit/game_cubit.dart';
+import 'package:flappy_bird/service_locator.dart';
+import 'package:flappy_bird/utils/audio_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'home_page.dart';
 
-void main() {
+void main() async {
+  await setupServiceLocator();
   runApp(const MyApp());
 }
 
@@ -14,7 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => GameCubit(),
+      create: (context) => GameCubit(audioHelper: getIt.get<AudioHelper>()),
       child: MaterialApp(
         theme: ThemeData(fontFamily: 'Chewy'),
         debugShowCheckedModeBanner: false,
