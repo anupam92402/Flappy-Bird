@@ -3,7 +3,7 @@ part of 'game_cubit.dart';
 class GameState with EquatableMixin {
   const GameState({
     this.currentScore = 0,
-    this.currentPlayingState = PlayingState.none,
+    this.currentPlayingState = PlayingState.idle,
   });
 
   final int currentScore;
@@ -19,4 +19,4 @@ class GameState with EquatableMixin {
   List<Object> get props => [currentScore, currentPlayingState];
 }
 
-enum PlayingState { none, playing, paused, gameOver }
+enum PlayingState { idle, playing, paused, gameOver }

@@ -1,6 +1,7 @@
 import 'package:flame/game.dart';
 import 'package:flappy_bird/widgets/game_over_widget.dart';
 import 'package:flappy_bird/widgets/game_start_text_widget.dart';
+import 'package:flappy_bird/widgets/score_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -30,7 +31,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return BlocConsumer<GameCubit, GameState>(
       listener: (context, state) {
-        if (state.currentPlayingState == PlayingState.none &&
+        if (state.currentPlayingState == PlayingState.idle &&
             latestState == PlayingState.gameOver) {
           setState(() {
             _flappyBirdGame = FlappyBirdGame(gameCubit: gameCubit);
@@ -45,8 +46,10 @@ class _HomePageState extends State<HomePage> {
               GameWidget(game: _flappyBirdGame),
               if (state.currentPlayingState == PlayingState.gameOver)
                 GameOverWidget(),
-              if (state.currentPlayingState == PlayingState.none)
+              if (state.currentPlayingState == PlayingState.idle)
                 GameStartTextWidget(),
+              if (state.currentPlayingState != PlayingState.gameOver)
+                ScoreWidget(score: state.currentScore.toString()),
             ],
           ),
         );

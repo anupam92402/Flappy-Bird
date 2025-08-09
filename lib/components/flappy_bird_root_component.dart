@@ -18,7 +18,6 @@ class FlappyBirdRootComponent extends Component
   late final DashComponent _dashComponent;
   late PipePairComponent _lastPipe;
   static const _horizontalDistance = 400.0;
-  late TextComponent scoreText;
 
   @override
   Future<void> onLoad() async {
@@ -26,9 +25,6 @@ class FlappyBirdRootComponent extends Component
     add(BackgroundComponent());
     add(_dashComponent = DashComponent());
     _addPipesComponent(fromX: 350);
-    game.camera.viewfinder.add(
-      scoreText = TextComponent(position: Vector2(0, -(game.size.y / 2))),
-    );
   }
 
   void _addPipesComponent({int count = 5, double fromX = 0.0}) {
@@ -60,12 +56,11 @@ class FlappyBirdRootComponent extends Component
   @override
   void update(double dt) {
     super.update(dt);
-    scoreText.text = bloc.state.currentScore.toString();
     if (_dashComponent.x >= _lastPipe.x) {
       _addPipesComponent(fromX: _horizontalDistance);
       _removePipes();
     }
-    game.camera.viewfinder.zoom = 1.0;
+    // game.camera.viewfinder.zoom = 1.0;
   }
 
   void onSpaceDown() {
@@ -79,7 +74,7 @@ class FlappyBirdRootComponent extends Component
   }
 
   void _checkToStart() {
-    if (bloc.state.currentPlayingState == PlayingState.none) {
+    if (bloc.state.currentPlayingState == PlayingState.idle) {
       bloc.startPlaying();
     }
   }

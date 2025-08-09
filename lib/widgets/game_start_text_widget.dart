@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
-import '../blocs/game_cubit/game_cubit.dart';
+import '../utils/color_constants.dart';
 import '../utils/string_constants.dart';
 
 class GameStartTextWidget extends StatelessWidget {
@@ -9,20 +9,27 @@ class GameStartTextWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        BlocProvider.of<GameCubit>(context).startPlaying();
-      },
+    return IgnorePointer(
       child: Align(
         alignment: Alignment(0, 0.2),
-        child: Text(
-          StringConstants.pressToStart,
-          style: TextStyle(
-            fontSize: 28,
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
-          ),
-        ),
+        child:
+            Text(
+                  StringConstants.tapToPlay,
+                  style: TextStyle(
+                    fontSize: 38,
+                    fontWeight: FontWeight.bold,
+                    color: ColorConstants.color2387FC,
+                    letterSpacing: 4,
+                  ),
+                )
+                .animate(
+                  onPlay: (controller) => controller.repeat(reverse: true),
+                )
+                .scale(
+                  begin: Offset(1.0, 1.0),
+                  end: Offset(1.2, 1.2),
+                  duration: Duration(milliseconds: 500),
+                ),
       ),
     );
   }

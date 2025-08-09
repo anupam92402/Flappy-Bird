@@ -10,7 +10,7 @@ class FlappyBirdGame extends FlameGame<FlappyBirdWorld> {
   FlappyBirdGame({required this.gameCubit})
     : super(
         world: FlappyBirdWorld(),
-        camera: CameraComponent.withFixedResolution(width: 600, height: 1000),
+        camera: CameraComponent.withFixedResolution(width: 600, height: 1300),
       );
   final GameCubit gameCubit;
 }
