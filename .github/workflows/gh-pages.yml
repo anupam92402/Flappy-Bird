@@ -10,7 +10,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2
+      - uses: bluefireteam/flutter-gh-pages@v7
         with:
-          flutter-version: '3.32.2'
+          customArgs: --renderer=auto --base-href /
       - uses: bluefireteam/flutter-gh-pages@v7
