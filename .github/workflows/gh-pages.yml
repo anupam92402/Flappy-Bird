@@ -14,9 +14,12 @@ jobs:
         with:
           flutter-version: '3.32.2'
           channel: stable
-      # Optional: verify Flutter install
-      - run: flutter --version
-      # Deploy to GitHub Pages
+      # 3️⃣ Get dependencies
+      - run: flutter pub get
+      # 4️⃣ Build Flutter web app with the new flag
+      - run: flutter build web --release --renderer=auto --base-href /
+      # 5️⃣ Deploy to GitHub Pages
       - uses: bluefireteam/flutter-gh-pages@v7
         with:
-          customArgs: --renderer=auto --base-href /
+          targetBranch: gh-pages
+          baseDir: build/web
