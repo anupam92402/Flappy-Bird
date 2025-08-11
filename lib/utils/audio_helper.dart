@@ -2,7 +2,7 @@ import 'package:flappy_bird/utils/audio_constants.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
 
 class AudioHelper {
-  late final SoLoud _soLoud;
+  late  SoLoud _soLoud;
   late AudioSource _backgroundSource;
   late AudioSource _scoreSource;
   SoundHandle? _playingBackground;
