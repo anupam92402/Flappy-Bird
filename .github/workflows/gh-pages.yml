@@ -10,7 +10,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.32.2'
+          channel: stable
+      # Optional: verify Flutter install
+      - run: flutter --version
+      # Deploy to GitHub Pages
       - uses: bluefireteam/flutter-gh-pages@v7
         with:
           customArgs: --renderer=auto --base-href /
-      - uses: bluefireteam/flutter-gh-pages@v7
