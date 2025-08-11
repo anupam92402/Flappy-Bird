@@ -18,7 +18,7 @@ dependencies:
   flame_bloc: ^1.12.15
   flutter_bloc: ^9.1.1
   flutter_animate: ^4.5.2
-  flutter_soloud: ^2.0.2
+  flutter_soloud: ^2.1.1
   get_it: ^8.2.0
 
 dev_dependencies:
