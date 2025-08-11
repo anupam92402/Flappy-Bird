@@ -24,7 +24,7 @@ class FlappyBirdWorld extends World
   @override
   Future<void> onLoad() async {
     super.onLoad();
-    await getIt.get<AudioHelper>().initialize();
+    // await getIt.get<AudioHelper>().initialize();
     add(
       FlameBlocProvider<GameCubit, GameState>(
         create: () => game.gameCubit,
