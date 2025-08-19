@@ -25,10 +25,18 @@ class FlappyBirdRootComponent extends Component
     await super.onLoad();
     add(BackgroundComponent());
     add(_dashComponent = DashComponent());
-    add(BoundaryComponent(position: Vector2(0, gameRef.size.y),size: Vector2(
-        gameRef.size.x, 2)));
-    add(BoundaryComponent(position: Vector2(0, -gameRef.size.y),size: Vector2
-      ( gameRef.size.x, 2)));
+    add(
+      BoundaryComponent(
+        position: Vector2(0, gameRef.size.y - 600),
+        size: Vector2(gameRef.size.x, 2),
+      ),
+    );
+    add(
+      BoundaryComponent(
+        position: Vector2(0, -gameRef.size.y + 600),
+        size: Vector2(gameRef.size.x, 2),
+      ),
+    );
     _addPipesComponent(fromX: 350);
   }
 
