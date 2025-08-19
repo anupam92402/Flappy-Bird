@@ -4,7 +4,9 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flappy_bird/utils/image_path.dart';
 
-class PipeComponent extends PositionComponent {
+import '../flappy_bird_game.dart';
+
+class PipeComponent extends PositionComponent with HasGameRef<FlappyBirdGame> {
   final bool isFlipped;
 
   PipeComponent({required this.isFlipped, required super.position});
@@ -16,9 +18,8 @@ class PipeComponent extends PositionComponent {
     await super.onLoad();
     _pipeSprite = await Sprite.load(ImagePath.pipe);
     anchor = Anchor.topCenter;
-    final ratio = _pipeSprite.srcSize.y / _pipeSprite.srcSize.x;
     const width = 82.0;
-    size = Vector2(width, width * ratio);
+    size = Vector2(width, gameRef.size.y);
     if (isFlipped) {
       flipVertically();
     }
@@ -28,10 +29,6 @@ class PipeComponent extends PositionComponent {
   @override
   void render(Canvas canvas) {
     super.render(canvas);
-    _pipeSprite.render(
-      canvas,
-      position: Vector2.zero(),
-      size: size,
-    );
+    _pipeSprite.render(canvas, position: Vector2.zero(), size: size);
   }
 }
