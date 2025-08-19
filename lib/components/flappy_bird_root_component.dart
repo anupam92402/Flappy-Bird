@@ -8,6 +8,7 @@ import 'package:flappy_bird/components/pipe_pair_component.dart';
 import '../blocs/game_cubit/game_cubit.dart';
 import '../flappy_bird_game.dart';
 import 'background_component.dart';
+import 'boundary_component.dart';
 import 'dash_component.dart';
 
 class FlappyBirdRootComponent extends Component
@@ -24,6 +25,10 @@ class FlappyBirdRootComponent extends Component
     await super.onLoad();
     add(BackgroundComponent());
     add(_dashComponent = DashComponent());
+    add(BoundaryComponent(position: Vector2(0, gameRef.size.y),size: Vector2(
+        gameRef.size.x, 2)));
+    add(BoundaryComponent(position: Vector2(0, -gameRef.size.y),size: Vector2
+      ( gameRef.size.x, 2)));
     _addPipesComponent(fromX: 350);
   }
 

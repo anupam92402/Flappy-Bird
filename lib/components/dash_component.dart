@@ -10,6 +10,7 @@ import 'package:flappy_bird/flappy_bird_game.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/image_path.dart';
+import 'boundary_component.dart';
 
 class DashComponent extends PositionComponent
     with
@@ -77,7 +78,7 @@ class DashComponent extends PositionComponent
     if (other is HiddenCoinComponent) {
       other.removeFromParent();
       bloc.increaseScore();
-    } else if (other is PipeComponent) {
+    } else if (other is PipeComponent || other is BoundaryComponent) {
       bloc.gameOver();
     }
   }
