@@ -73,7 +73,7 @@ class FlappyBirdRootComponent extends Component
       _addPipesComponent(fromX: _horizontalDistance);
       _removePipes();
     }
-    // game.camera.viewfinder.zoom = 1.0;
+    // game.camera.viewfinder.zoom = .7;
   }
 
   void onSpaceDown() {

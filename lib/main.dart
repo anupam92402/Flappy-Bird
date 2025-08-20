@@ -12,7 +12,7 @@ void main() async {
   await setupServiceLocator();
   runApp(
     DevicePreview(
-      enabled: !kReleaseMode,
+      enabled: false,
       tools: const [
         ...DevicePreview.defaultTools,
       ],
