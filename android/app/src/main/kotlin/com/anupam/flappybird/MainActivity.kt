@@ -1,4 +1,4 @@
-package com.example.flappy_bird
+package com.anupam.flappybird
 
 import io.flutter.embedding.android.FlutterActivity
 
